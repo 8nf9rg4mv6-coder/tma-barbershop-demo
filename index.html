@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0b" />
+  <title>GOLDEN BLADE — Барбершоп</title>
+  <!-- Telegram Mini App SDK: https://core.telegram.org/bots/webapps -->
+  <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#0a0a0b',
+            coal: '#121214',
+            card: '#17171a',
+            line: '#26262b',
+            gold: { DEFAULT: '#d4af37', soft: '#e8c96a', deep: '#9c7c1e' },
+          },
+          fontFamily: { display: ['Playfair Display', 'serif'] },
+          boxShadow: { gold: '0 8px 30px rgba(212,175,55,0.18)' },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-ink text-zinc-200 font-[Inter] antialiased min-h-screen">
+  <div class="mx-auto max-w-md lg:max-w-3xl px-4 pb-40 safe-bottom">
+
+    <!-- Header -->
+    <header class="pt-8 pb-6 text-center fade-in">
+      <div class="mx-auto mb-3 h-14 w-14 rounded-full border border-gold/50 grid place-items-center shadow-gold">
+        <span class="text-gold text-2xl font-display">✂</span>
+      </div>
+      <h1 class="font-display text-3xl lg:text-4xl text-gold tracking-wide">GOLDEN BLADE</h1>
+      <p class="text-xs uppercase tracking-[0.35em] text-zinc-500 mt-2">Premium Barbershop</p>
+      <div class="mx-auto mt-4 h-px w-24 bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+      <p id="tg-user" class="mt-3 text-sm text-zinc-400"></p>
+    </header>
+
+    <!-- Step 1: Master -->
+    <section class="step-card fade-in" data-step="1">
+      <h2 class="step-title"><span class="step-num">01</span> Выберите мастера</h2>
+      <div class="relative">
+        <select id="master-select"
+          class="w-full appearance-none bg-card border border-line rounded-xl px-4 py-4 text-base text-zinc-100
+                 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors">
+          <option value="">— Загрузка мастеров… —</option>
+        </select>
+        <svg class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </div>
+      <p id="master-bio" class="mt-3 text-sm text-zinc-500 hidden"></p>
+    </section>
+
+    <!-- Step 2: Services -->
+    <section class="step-card fade-in" data-step="2">
+      <h2 class="step-title"><span class="step-num">02</span> Выберите услугу</h2>
+      <div id="services-list" class="space-y-3"></div>
+    </section>
+
+    <!-- Step 3: Date & Time -->
+    <section class="step-card fade-in" data-step="3">
+      <h2 class="step-title"><span class="step-num">03</span> Дата и время</h2>
+      <div id="calendar" class="mb-5"></div>
+      <p class="text-xs uppercase tracking-widest text-zinc-500 mb-3">Свободные слоты</p>
+      <div id="slots" class="grid grid-cols-4 sm:grid-cols-5 gap-2 min-h-[44px]">
+        <p class="col-span-full text-sm text-zinc-600">Выберите дату</p>
+      </div>
+    </section>
+
+    <!-- Step 4: Contacts -->
+    <section class="step-card fade-in" data-step="4">
+      <h2 class="step-title"><span class="step-num">04</span> Контакты</h2>
+      <input id="client-name" type="text" placeholder="Ваше имя" autocomplete="name"
+        class="field-input mb-3" />
+      <input id="client-phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel"
+        class="field-input" />
+    </section>
+
+    <!-- Summary -->
+    <section id="summary" class="step-card border-gold/40 hidden fade-in">
+      <h2 class="step-title text-gold">Ваша запись</h2>
+      <div id="summary-body" class="text-sm space-y-1.5 text-zinc-300"></div>
+    </section>
+  </div>
+
+  <!-- In-app fallback CTA (Telegram MainButton used inside Telegram) -->
+  <div id="cta-wrap" class="fixed bottom-0 inset-x-0 p-4 safe-bottom bg-gradient-to-t from-ink via-ink/95 to-transparent">
+    <div class="mx-auto max-w-md lg:max-w-3xl">
+      <button id="cta" disabled
+        class="w-full min-h-[52px] rounded-xl bg-gold text-ink font-semibold text-base tracking-wide
+               disabled:opacity-30 disabled:cursor-not-allowed enabled:shadow-gold
+               active:scale-[0.98] transition-all">
+        Записаться
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden">
+    <div class="rounded-xl bg-card border border-gold/50 px-5 py-3 text-sm shadow-gold"></div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
